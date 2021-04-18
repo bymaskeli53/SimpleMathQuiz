@@ -6,6 +6,8 @@ import android.os.CountDownTimer
 import android.os.Handler
 import android.os.Looper
 import android.view.View
+import android.view.inputmethod.EditorInfo
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import kotlinx.android.synthetic.main.activity_main.*
@@ -15,10 +17,22 @@ class MainActivity : AppCompatActivity() {
     var result:Int?=null
     var handler = Handler()
     var runnable = Runnable {  }
+    var score = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        editTextResult.setOnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                if (editTextResult.text.toString().toInt() == result ) {
+                    score += 1
+                    textViewScore.text = "Your Score : $score"
+                }; true
+            } else { false}
+
+        }
+
+
 
 
 
@@ -62,7 +76,7 @@ class MainActivity : AppCompatActivity() {
             randomOperator()
             buttonStart.visibility = View.INVISIBLE
         }
-        var score = 0
+
         buttonOk.setOnClickListener {
             if (editTextResult.text.toString().toInt() == result ) {
                 score += 1
